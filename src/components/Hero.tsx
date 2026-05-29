@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
-const MIN_SPLASH_MS = 600;
-const MAX_SPLASH_MS = 1400;
+const MIN_SPLASH_MS = 100;
+const MAX_SPLASH_MS = 700;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -108,11 +108,11 @@ export default function Hero() {
           preload="auto"
           onCanPlay={() => setVideoReady(true)}
           onLoadedData={() => setVideoReady(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
             videoReady ? "opacity-100" : "opacity-0"
           }`}
         >
-          <source src="/videos/heroorj.mp4" type="video/mp4" />
+          <source src="/videos/heroorj2.mp4" type="video/mp4" />
         </video>
 
         <div className="absolute inset-0 bg-black/40 pointer-events-none" />
@@ -188,5 +188,3 @@ export default function Hero() {
     </>
   );
 }
-
-
