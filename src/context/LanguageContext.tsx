@@ -114,7 +114,7 @@ const translations = {
         "From complimentary breakfast to a refreshing pool, we have everything to make your stay exceptional.",
       wifiTitle: "Free Wi-Fi",
       wifiDesc: "High-speed internet throughout the hotel and garden areas",
-      breakfastTitle: "Free Breakfast",
+      breakfastTitle: " Breakfast",
       breakfastDesc:
         "Freshly prepared Turkish breakfast served in our garden every morning",
       poolTitle: "Outdoor Pool",
@@ -136,7 +136,7 @@ const translations = {
         "Check-out by 11:00 AM. Late check-out available upon request",
       bannerTitle: "All Amenities Included",
       bannerDesc:
-        "No hidden fees. Your stay includes free breakfast, pool access, Wi-Fi, and the warmth of our family-run hospitality.",
+        "No hidden fees. Your stay includes  breakfast, pool access, Wi-Fi, and the warmth of our family-run hospitality.",
       bannerCta: "Reserve Your Room",
     },
     location: {
@@ -229,7 +229,7 @@ const translations = {
       trustRating: "4,5/5",
       trustReviews: "875 Yorum",
       trustLocation: "Kaleiçi'nin Tam Merkezinde",
-      trustBreakfast: "Ücretsiz Kahvaltı Dahil",
+      trustBreakfast: "Kahvaltı Dahil",
       scroll: "Kaydır",
     },
     about: {
@@ -239,7 +239,7 @@ const translations = {
       desc1:
         "Antalya'nın en sevilen semtinin antik surları içine sinen Kaleiçi Hotel, Osmanlı şöhretini modern konforla harmanlayan aile işletmesi bir butik oteldir. Bakımlı bahçemiz, ferahlatıcı açık havuzumuz ve sıcak misafirperverliğimiz unutulmaz bir konaklama deneyimi sunar.",
       desc2:
-        "Sabahları bahçe terasımızda ücretsiz kahvaltının keyfini çıkarın, öğleden sonraları havuz başında dinlenin ve yüzyıllık tarihi dakikalar içinde keşfedin. Ekibimiz her misafirimize aile gibi davranır.",
+        "Sabahları bahçe terasımızda  kahvaltının keyfini çıkarın, öğleden sonraları havuz başında dinlenin ve yüzyıllık tarihi dakikalar içinde keşfedin. Ekibimiz her misafirimize aile gibi davranır.",
       since: "2015'ten Beri",
       sinceDesc: "Tarihi Kaleiçi'nin kalbinde misafirlerimizi ağırlıyoruz",
       guests: "875'ten Fazla Mutlu Misafir",
@@ -307,10 +307,10 @@ const translations = {
       title1: "İhtiyacınız Olan",
       title2: "Her Şey Burada",
       subtitle:
-        "Ücretsiz kahvaltıdan ferahlatıcı havuza kadar, konaklamanızı olağanüstü kılacak her şey bizde mevcut.",
+        "Kahvaltıdan ferahlatıcı havuza kadar, konaklamanızı olağanüstü kılacak her şey bizde mevcut.",
       wifiTitle: "Ücretsiz Wi-Fi",
       wifiDesc: "Otel ve bahçe alanlarında yüksek hızlı internet",
-      breakfastTitle: "Ücretsiz Kahvaltı",
+      breakfastTitle: "Kahvaltı",
       breakfastDesc: "Her sabah bahçemizde taze hazırlanan Türk kahvaltısı",
       poolTitle: "Açık Havuz",
       poolDesc: "Güneşli Antalya günleri için ferahlatıcı açık yüzme havuzu",
@@ -329,7 +329,7 @@ const translations = {
       checkoutDesc: "11:00'e kadar çıkış. Geç çıkış talep üzerine mümkün",
       bannerTitle: "Tüm Olanaklar Dahil",
       bannerDesc:
-        "Gizli ücret yok. Konaklamanıza ücretsiz kahvaltı, havuz erişimi, Wi-Fi ve aile sıcaklığımız dahildir.",
+        "Gizli ücret yok. Konaklamanıza  kahvaltı, havuz erişimi, Wi-Fi ve aile sıcaklığımız dahildir.",
       bannerCta: "Odanızı Rezerve Edin",
     },
     location: {

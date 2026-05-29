@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { useLanguage } from '@/context/LanguageContext';
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -16,6 +16,7 @@ const fadeUp = {
 export default function Hero() {
   const { t, whatsappUrl } = useLanguage();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => setMounted(true), []);
 
   const h = t.hero;
@@ -23,34 +24,26 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden"
-      style={{
-        background:
-          'linear-gradient(160deg, #87CEEB 0%, #48cae4 22%, #2d9e6b 58%, #1a4731 100%)',
-      }}
+      className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-black"
     >
-      {/* Pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='40' cy='40' r='2'/%3E%3Ccircle cx='0' cy='0' r='2'/%3E%3Ccircle cx='80' cy='0' r='2'/%3E%3Ccircle cx='0' cy='80' r='2'/%3E%3Ccircle cx='80' cy='80' r='2'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '80px 80px',
-        }}
-      />
-      <div
-        className="absolute top-10 right-10 w-64 h-64 rounded-full opacity-10 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #ffffff 0%, transparent 70%)' }}
-      />
-      <div
-        className="absolute bottom-20 left-10 w-48 h-48 rounded-full opacity-10 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, #f4845f 0%, transparent 70%)' }}
-      />
-      <svg className="absolute top-1/4 left-8 opacity-15 pointer-events-none" width="80" height="120" viewBox="0 0 80 120" fill="none">
-        <path d="M40 120 C40 120 5 80 5 45 C5 20 20 5 40 5 C60 5 75 20 75 45 C75 80 40 120 40 120Z" fill="white" />
-      </svg>
-      <svg className="absolute bottom-32 right-12 opacity-15 pointer-events-none rotate-45" width="60" height="90" viewBox="0 0 80 120" fill="none">
-        <path d="M40 120 C40 120 5 80 5 45 C5 20 20 5 40 5 C60 5 75 20 75 45 C75 80 40 120 40 120Z" fill="white" />
-      </svg>
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/images/hero-fallback.webp"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/videos/hero.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/45 pointer-events-none" />
+
+      {/* Soft premium gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black/60 pointer-events-none" />
 
       {/* Main content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -73,7 +66,7 @@ export default function Hero() {
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
+            className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 drop-shadow-lg"
           >
             {h.title1}
             <br />
@@ -87,7 +80,7 @@ export default function Hero() {
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="font-inter text-lg sm:text-xl md:text-2xl text-white/85 leading-relaxed mb-10 max-w-2xl mx-auto"
+            className="font-inter text-lg sm:text-xl md:text-2xl text-white leading-relaxed mb-10 max-w-2xl mx-auto drop-shadow-md"
           >
             {h.subtitle}
           </motion.p>
@@ -112,6 +105,7 @@ export default function Hero() {
               </svg>
               {h.cta1}
             </a>
+
             <a
               href="#contact"
               className="inline-flex items-center gap-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/50 text-white font-inter font-semibold text-base px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 w-full sm:w-auto justify-center"
@@ -130,18 +124,34 @@ export default function Hero() {
             className="flex flex-wrap justify-center gap-3 sm:gap-4"
           >
             <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/25 text-white px-3 py-2 sm:px-4 rounded-full text-xs sm:text-sm font-inter">
-              <span className="text-yellow-300 text-sm sm:text-base">★★★★★</span>
+              <span className="text-yellow-300 text-sm sm:text-base">
+                ★★★★★
+              </span>
               <span className="font-semibold">{h.trustRating}</span>
               <span className="text-white/75">· {h.trustReviews}</span>
             </div>
+
             <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/25 text-white px-3 py-2 sm:px-4 rounded-full text-xs sm:text-sm font-inter">
-              <svg className="w-3.5 h-3.5 text-yellow-200" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              <svg
+                className="w-3.5 h-3.5 text-yellow-200"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span>{h.trustLocation}</span>
             </div>
+
             <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/25 text-white px-3 py-2 sm:px-4 rounded-full text-xs sm:text-sm font-inter">
-              <svg className="w-3.5 h-3.5 text-yellow-200" fill="currentColor" viewBox="0 0 20 20">
+              <svg
+                className="w-3.5 h-3.5 text-yellow-200"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
               <span>{h.trustBreakfast}</span>
@@ -156,15 +166,27 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/70 z-10"
         >
-          <span className="font-inter text-xs uppercase tracking-widest">{h.scroll}</span>
+          <span className="font-inter text-xs uppercase tracking-widest">
+            {h.scroll}
+          </span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </motion.div>
         </motion.div>
