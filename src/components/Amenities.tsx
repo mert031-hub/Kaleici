@@ -83,7 +83,7 @@ function AmenityCard({
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      className={`group bg-white/90 backdrop-blur-sm rounded-2xl p-5 md:p-6 shadow-soft border ${color.border} hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-1`}
+      className={`group bg-white rounded-2xl p-5 md:p-6 shadow-soft border ${color.border} hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-1`}
     >
       <div
         className={`inline-flex items-center justify-center w-13 h-13 w-14 h-14 rounded-2xl ${color.bg} ${color.text} mb-4 group-hover:scale-110 transition-transform duration-300`}
@@ -119,15 +119,53 @@ export default function Amenities() {
   return (
     <section
       id="amenities"
-      className="relative section-padding"
+      className="relative section-padding overflow-hidden"
       style={{
-        backgroundImage: `url('https://picsum.photos/seed/kaleici-amenities-bg/1600/900')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        background: 'linear-gradient(145deg, #f5f0e8 0%, #f0faf4 45%, #eef7f2 70%, #faf0e6 100%)',
       }}
     >
-      {/* Soft overlay to keep text readable */}
-      <div className="absolute inset-0 bg-stone-50/88" />
+      {/* Decorative background shapes — Mediterranean feel, no photo */}
+      <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-primary-200/20 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-16 -left-16 w-80 h-80 rounded-full bg-secondary-200/20 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-accent-100/10 blur-3xl pointer-events-none" />
+
+      {/* Decorative leaf outlines */}
+      <svg
+        className="absolute top-8 right-8 opacity-[0.07] text-primary-800 pointer-events-none"
+        width="140"
+        height="210"
+        viewBox="0 0 80 120"
+        fill="currentColor"
+      >
+        <path d="M40 120 C40 120 5 80 5 45 C5 20 20 5 40 5 C60 5 75 20 75 45 C75 80 40 120 40 120Z" />
+      </svg>
+      <svg
+        className="absolute bottom-12 left-6 opacity-[0.06] text-secondary-700 pointer-events-none rotate-[-20deg]"
+        width="100"
+        height="150"
+        viewBox="0 0 80 120"
+        fill="currentColor"
+      >
+        <path d="M40 120 C40 120 5 80 5 45 C5 20 20 5 40 5 C60 5 75 20 75 45 C75 80 40 120 40 120Z" />
+      </svg>
+      <svg
+        className="absolute top-1/3 left-10 opacity-[0.05] text-primary-600 pointer-events-none rotate-[30deg]"
+        width="70"
+        height="105"
+        viewBox="0 0 80 120"
+        fill="currentColor"
+      >
+        <path d="M40 120 C40 120 5 80 5 45 C5 20 20 5 40 5 C60 5 75 20 75 45 C75 80 40 120 40 120Z" />
+      </svg>
+
+      {/* Subtle dot pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='2' fill='%231a4731'/%3E%3C/svg%3E")`,
+          backgroundSize: '40px 40px',
+        }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

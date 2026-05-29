@@ -88,13 +88,22 @@ export default function About() {
                 </div>
               </div>
 
-              {/* Floating accent card */}
-              <div className="absolute -bottom-6 -right-6 lg:-right-10 bg-white rounded-2xl shadow-soft-xl p-5 max-w-[200px]">
+              {/* Floating accent card — desktop only to avoid mobile overlap */}
+              <div className="hidden sm:block absolute -bottom-6 -right-6 lg:-right-10 bg-white rounded-2xl shadow-soft-xl p-5 max-w-[200px] z-20">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-2xl">🌿</span>
                   <span className="font-playfair font-semibold text-primary-800 text-sm">{ab.gardenHotel}</span>
                 </div>
                 <p className="font-inter text-xs text-gray-500 leading-relaxed">{ab.gardenDesc}</p>
+              </div>
+
+              {/* Same info shown inline on mobile */}
+              <div className="flex sm:hidden items-center gap-3 mt-4 bg-white rounded-2xl shadow-soft border border-stone-200 p-4">
+                <span className="text-xl">🌿</span>
+                <div>
+                  <p className="font-playfair font-semibold text-primary-800 text-sm">{ab.gardenHotel}</p>
+                  <p className="font-inter text-xs text-gray-500">{ab.gardenDesc}</p>
+                </div>
               </div>
             </div>
           </AnimatedSection>
