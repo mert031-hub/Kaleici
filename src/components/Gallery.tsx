@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import Image from 'next/image';
-import { motion, useInView } from 'framer-motion';
-import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css';
-import { useLanguage } from '@/context/LanguageContext';
-import { galleryImages } from '@/data/images';
+import { useState, useRef } from "react";
+import Image from "next/image";
+import { motion, useInView } from "framer-motion";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import { useLanguage } from "@/context/LanguageContext";
+import { galleryImages } from "@/data/images";
 
 function GalleryCard({
   src,
@@ -20,14 +20,20 @@ function GalleryCard({
   onClick: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, scale: 0.96 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      animate={
+        isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.96 }
+      }
+      transition={{
+        duration: 0.5,
+        delay: index * 0.05,
+        ease: [0.22, 1, 0.36, 1],
+      }}
       onClick={onClick}
       className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-soft hover:shadow-soft-xl transition-all duration-300 aspect-[4/3]"
       whileHover={{ y: -4 }}
@@ -76,17 +82,29 @@ export default function Gallery() {
   const { t, lang } = useLanguage();
   const [lightboxIndex, setLightboxIndex] = useState(-1);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleInView = useInView(sectionRef, { once: true, margin: '-80px' });
+  const titleInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   // Build per-image alt text from language
   const labelKeys: Array<keyof typeof t.gallery> = [
-    'pool', 'garden', 'facade', 'bougainvillea', 'lounge', 'breakfast',
-    'courtyard', 'evening', 'poolside', 'floral', 'room', 'rooftop',
+    "pool",
+    "garden",
+    "facade",
+    "bougainvillea",
+    "lounge",
+    "breakfast",
+    "courtyard",
+    "evening",
+    "poolside",
+    "floral",
+    "room",
+    "rooftop",
   ];
 
   const images = galleryImages.map((img, i) => ({
     ...img,
-    displayAlt: (t.gallery[labelKeys[i]] as string) ?? (lang === 'tr' ? img.altTr : img.alt),
+    displayAlt:
+      (t.gallery[labelKeys[i]] as string) ??
+      (lang === "tr" ? img.altTr : img.alt),
   }));
 
   const slides = images.map((img) => ({
@@ -100,7 +118,10 @@ export default function Gallery() {
     <section id="gallery" className="section-padding bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div ref={sectionRef} className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+        <div
+          ref={sectionRef}
+          className="text-center max-w-2xl mx-auto mb-12 md:mb-16"
+        >
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
@@ -115,7 +136,7 @@ export default function Gallery() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="heading-lg text-gray-900 mb-4"
           >
-            {t.gallery.title1}{' '}
+            {t.gallery.title1}{" "}
             <span className="gradient-text">{t.gallery.title2}</span>
           </motion.h2>
           <motion.p

@@ -56,7 +56,7 @@ export const galleryImages: HotelImage[] = [
     height: 600,
   },
   {
-    src: "/images/odaici3.avif",
+    src: "/images/odaici32.avif",
     alt: "Breakfast Garden",
     altTr: "Kahvaltı Bahçesi",
     width: 800,
@@ -146,7 +146,7 @@ export const aboutImage: HotelImage = {
 
 // ─── Accommodation section ────────────────────────────────────────────────────
 export const accommodationImage: HotelImage = {
-  src: "/images/odaici3.avif",
+  src: "/images/odaici33.avif",
   alt: "Kaleiçi Hotel room",
   altTr: "Kaleiçi Hotel odası",
   width: 900,
