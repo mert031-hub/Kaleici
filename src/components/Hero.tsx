@@ -16,19 +16,22 @@ const fadeUp = {
 export default function Hero() {
   const { t, whatsappUrl } = useLanguage();
   const [mounted, setMounted] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const timer = setTimeout(() => setShowSplash(false), 600);
+    return () => clearTimeout(timer);
   }, []);
 
   const h = t.hero;
 
   return (
     <>
-      {/* Loading screen — stays visible until video is ready to play */}
+      {/* Loading screen — fixed 600ms, independent of video readiness */}
       <AnimatePresence>
-        {!videoReady && (
+        {showSplash && (
           <motion.div
             key="splash"
             initial={{ opacity: 1 }}
@@ -81,7 +84,7 @@ export default function Hero() {
         id="hero"
         className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-[#1a4731]"
       >
-        {/* Primary background — only heroorj.mp4, no image fallback */}
+        {/* Primary background — only heroorj.mp4, fades in when ready */}
         <video
           autoPlay
           muted
@@ -89,8 +92,9 @@ export default function Hero() {
           playsInline
           preload="auto"
           onCanPlay={() => setVideoReady(true)}
-          onLoadedData={() => setVideoReady(true)}
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
         >
           <source src="/videos/heroorj.mp4" type="video/mp4" />
         </video>
