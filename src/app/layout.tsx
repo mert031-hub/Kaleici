@@ -63,7 +63,7 @@ export default function RootLayout({
         {/* Preload hero video before React hydrates so it buffers immediately */}
         <link
           rel="preload"
-          href="/videos/heroorj.mp4"
+          href="/videos/heroorj2.mp4"
           as="video"
           type="video/mp4"
         />

@@ -103,7 +103,7 @@ export default function Gallery() {
   const images = galleryImages.map((img, i) => ({
     ...img,
     displayAlt:
-      (t.gallery[labelKeys[i]] as string) ??
+      (i < labelKeys.length ? (t.gallery[labelKeys[i]] as string) : null) ??
       (lang === "tr" ? img.altTr : img.alt),
   }));
 
@@ -153,7 +153,7 @@ export default function Gallery() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {images.map((img, index) => (
             <GalleryCard
-              key={img.src}
+              key={`${img.src}-${index}`}
               src={img.src}
               alt={img.displayAlt}
               index={index}
