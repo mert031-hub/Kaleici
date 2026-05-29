@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const MIN_SPLASH_MS = 100;
@@ -22,22 +22,47 @@ export default function Hero() {
   const [showSplash, setShowSplash] = useState(true);
   const [minSplashDone, setMinSplashDone] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    const t0 = performance.now();
+    console.log(`[Hero] useEffect (hydration done) +${t0.toFixed(0)}ms`);
+
     setMounted(true);
-    // Min: guarantee at least 600ms of branding
-    const minTimer = setTimeout(() => setMinSplashDone(true), MIN_SPLASH_MS);
-    // Max: force-close splash after 1400ms even if video not ready
-    const maxTimer = setTimeout(() => setShowSplash(false), MAX_SPLASH_MS);
+
+    // Critical: if video metadata loaded BEFORE React hydrated (preload is fast),
+    // the onLoadedMetadata/onLoadedData events already fired and were missed.
+    // Check readyState now and set videoReady immediately if so.
+    if (videoRef.current) {
+      const rs = videoRef.current.readyState;
+      console.log(`[Hero] video.readyState on mount: ${rs} +${performance.now().toFixed(0)}ms`);
+      if (rs >= 1) {
+        console.log(`[Hero] videoReady=true (readyState check) +${performance.now().toFixed(0)}ms`);
+        setVideoReady(true);
+      }
+    }
+
+    const minTimer = setTimeout(() => {
+      console.log(`[Hero] minSplashDone=true +${performance.now().toFixed(0)}ms`);
+      setMinSplashDone(true);
+    }, MIN_SPLASH_MS);
+
+    // Safety net: force both flags at max timeout so video is never stuck invisible
+    const maxTimer = setTimeout(() => {
+      console.log(`[Hero] maxTimer — forcing showSplash=false + videoReady=true +${performance.now().toFixed(0)}ms`);
+      setShowSplash(false);
+      setVideoReady(true);
+    }, MAX_SPLASH_MS);
+
     return () => {
       clearTimeout(minTimer);
       clearTimeout(maxTimer);
     };
   }, []);
 
-  // Close splash as soon as BOTH minimum time passed AND video is ready
   useEffect(() => {
     if (minSplashDone && videoReady) {
+      console.log(`[Hero] showSplash=false (minSplash ∧ videoReady) +${performance.now().toFixed(0)}ms`);
       setShowSplash(false);
     }
   }, [minSplashDone, videoReady]);
@@ -95,19 +120,28 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      {/* bg-[#1a4731] is the safety color if video fails */}
       <section
         id="hero"
         className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-[#1a4731]"
       >
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          onLoadedMetadata={() => setVideoReady(true)}
-          onLoadedData={() => setVideoReady(true)}
+          onLoadedMetadata={() => {
+            console.log(`[Hero] onLoadedMetadata +${performance.now().toFixed(0)}ms`);
+            setVideoReady(true);
+          }}
+          onLoadedData={() => {
+            console.log(`[Hero] onLoadedData +${performance.now().toFixed(0)}ms`);
+            setVideoReady(true);
+          }}
+          onCanPlay={() => {
+            console.log(`[Hero] onCanPlay +${performance.now().toFixed(0)}ms`);
+          }}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
             videoReady ? "opacity-100" : "opacity-0"
           }`}
@@ -188,3 +222,4 @@ export default function Hero() {
     </>
   );
 }
+
