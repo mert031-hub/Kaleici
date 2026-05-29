@@ -2,7 +2,9 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
+import { aboutImage } from '@/data/images';
 
 function AnimatedSection({
   children,
@@ -62,14 +64,13 @@ export default function About() {
           <AnimatedSection delay={0}>
             <div className="relative">
               <div className="relative rounded-3xl overflow-hidden shadow-soft-xl aspect-[4/5] max-w-md mx-auto lg:mx-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://picsum.photos/seed/kaleici-about1/600/750"
-                  alt="Kaleiçi Hotel garden and pool"
-                  className="absolute inset-0 w-full h-full object-cover"
+                <Image
+                  src={aboutImage.src}
+                  alt={aboutImage.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                   loading="lazy"
-                  width={600}
-                  height={750}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent" />
 

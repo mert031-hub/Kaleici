@@ -2,7 +2,9 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
+import { accommodationImage } from '@/data/images';
 
 const roomAmenityIcons = [
   <svg key="beds" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -82,14 +84,13 @@ export default function Accommodation() {
           <div className="grid lg:grid-cols-2">
             {/* Left: Photo */}
             <div className="relative min-h-[300px] lg:min-h-[520px] overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://picsum.photos/seed/kaleici-accom1/900/600"
-                alt="Kaleiçi Hotel room"
-                className="absolute inset-0 w-full h-full object-cover"
+              <Image
+                src={accommodationImage.src}
+                alt={accommodationImage.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
                 loading="lazy"
-                width={900}
-                height={600}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-primary-900/10 to-transparent" />
 
