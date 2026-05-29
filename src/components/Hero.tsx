@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
-const SPLASH_MS = 700;
-
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -18,22 +16,19 @@ const fadeUp = {
 export default function Hero() {
   const { t, whatsappUrl } = useLanguage();
   const [mounted, setMounted] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const timer = setTimeout(() => setShowSplash(false), SPLASH_MS);
-    return () => clearTimeout(timer);
   }, []);
 
   const h = t.hero;
 
   return (
     <>
-      {/* Loading splash — 700ms max, independent of video load */}
+      {/* Loading screen — stays visible until video is ready to play */}
       <AnimatePresence>
-        {showSplash && (
+        {!videoReady && (
           <motion.div
             key="splash"
             initial={{ opacity: 1 }}
@@ -81,30 +76,21 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
+      {/* bg-[#1a4731] is the safety color if video ever fails */}
       <section
         id="hero"
         className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-[#1a4731]"
       >
-        {/* Fallback image — only while video hasn't buffered yet */}
-        {!videoReady && (
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/bahce1.webp')" }}
-          />
-        )}
-
-        {/* Primary background: heroorj.mp4 — starts opacity-0, fades to opacity-100 on onCanPlay */}
+        {/* Primary background — only heroorj.mp4, no image fallback */}
         <video
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster="/images/bahce1.webp"
           onCanPlay={() => setVideoReady(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-            videoReady ? "opacity-100" : "opacity-0"
-          }`}
+          onLoadedData={() => setVideoReady(true)}
+          className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/videos/heroorj.mp4" type="video/mp4" />
         </video>
