@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
-// Branding splash duration — independent of video load time
 const SPLASH_MS = 700;
 
 const fadeUp = {
@@ -19,14 +18,12 @@ const fadeUp = {
 export default function Hero() {
   const { t, whatsappUrl } = useLanguage();
   const [mounted, setMounted] = useState(false);
-  // splashDone: timer-based, closes loading screen after SPLASH_MS
-  const [splashDone, setSplashDone] = useState(false);
-  // videoVisible: set when browser has buffered enough to play
-  const [videoVisible, setVideoVisible] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const timer = setTimeout(() => setSplashDone(true), SPLASH_MS);
+    const timer = setTimeout(() => setShowSplash(false), SPLASH_MS);
     return () => clearTimeout(timer);
   }, []);
 
@@ -34,8 +31,9 @@ export default function Hero() {
 
   return (
     <>
+      {/* Loading splash — 700ms max, independent of video load */}
       <AnimatePresence>
-        {!splashDone && (
+        {showSplash && (
           <motion.div
             key="splash"
             initial={{ opacity: 1 }}
@@ -87,13 +85,15 @@ export default function Hero() {
         id="hero"
         className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-[#1a4731]"
       >
-        {/* Static fallback — visible immediately after splash, while video buffers */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/images/bahce1.webp')" }}
-        />
+        {/* Fallback image — only while video hasn't buffered yet */}
+        {!videoReady && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/bahce1.webp')" }}
+          />
+        )}
 
-        {/* Video: preload=auto starts buffering immediately; fades in when ready */}
+        {/* Primary background: heroorj.mp4 — starts opacity-0, fades to opacity-100 on onCanPlay */}
         <video
           autoPlay
           muted
@@ -101,9 +101,9 @@ export default function Hero() {
           playsInline
           preload="auto"
           poster="/images/bahce1.webp"
-          onCanPlay={() => setVideoVisible(true)}
+          onCanPlay={() => setVideoReady(true)}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-            videoVisible ? "opacity-100" : "opacity-0"
+            videoReady ? "opacity-100" : "opacity-0"
           }`}
         >
           <source src="/videos/heroorj.mp4" type="video/mp4" />
