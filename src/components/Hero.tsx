@@ -35,21 +35,29 @@ export default function Hero() {
     // Check readyState now and set videoReady immediately if so.
     if (videoRef.current) {
       const rs = videoRef.current.readyState;
-      console.log(`[Hero] video.readyState on mount: ${rs} +${performance.now().toFixed(0)}ms`);
+      console.log(
+        `[Hero] video.readyState on mount: ${rs} +${performance.now().toFixed(0)}ms`,
+      );
       if (rs >= 1) {
-        console.log(`[Hero] videoReady=true (readyState check) +${performance.now().toFixed(0)}ms`);
+        console.log(
+          `[Hero] videoReady=true (readyState check) +${performance.now().toFixed(0)}ms`,
+        );
         setVideoReady(true);
       }
     }
 
     const minTimer = setTimeout(() => {
-      console.log(`[Hero] minSplashDone=true +${performance.now().toFixed(0)}ms`);
+      console.log(
+        `[Hero] minSplashDone=true +${performance.now().toFixed(0)}ms`,
+      );
       setMinSplashDone(true);
     }, MIN_SPLASH_MS);
 
     // Safety net: force both flags at max timeout so video is never stuck invisible
     const maxTimer = setTimeout(() => {
-      console.log(`[Hero] maxTimer — forcing showSplash=false + videoReady=true +${performance.now().toFixed(0)}ms`);
+      console.log(
+        `[Hero] maxTimer — forcing showSplash=false + videoReady=true +${performance.now().toFixed(0)}ms`,
+      );
       setShowSplash(false);
       setVideoReady(true);
     }, MAX_SPLASH_MS);
@@ -62,7 +70,9 @@ export default function Hero() {
 
   useEffect(() => {
     if (minSplashDone && videoReady) {
-      console.log(`[Hero] showSplash=false (minSplash ∧ videoReady) +${performance.now().toFixed(0)}ms`);
+      console.log(
+        `[Hero] showSplash=false (minSplash ∧ videoReady) +${performance.now().toFixed(0)}ms`,
+      );
       setShowSplash(false);
     }
   }, [minSplashDone, videoReady]);
@@ -132,11 +142,15 @@ export default function Hero() {
           playsInline
           preload="auto"
           onLoadedMetadata={() => {
-            console.log(`[Hero] onLoadedMetadata +${performance.now().toFixed(0)}ms`);
+            console.log(
+              `[Hero] onLoadedMetadata +${performance.now().toFixed(0)}ms`,
+            );
             setVideoReady(true);
           }}
           onLoadedData={() => {
-            console.log(`[Hero] onLoadedData +${performance.now().toFixed(0)}ms`);
+            console.log(
+              `[Hero] onLoadedData +${performance.now().toFixed(0)}ms`,
+            );
             setVideoReady(true);
           }}
           onCanPlay={() => {
@@ -222,4 +236,3 @@ export default function Hero() {
     </>
   );
 }
-
