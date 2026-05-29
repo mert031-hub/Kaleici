@@ -2,22 +2,26 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-
-const attractions = [
-  { emoji: '🏖️', label: 'Mermerli Beach', time: '6 min walk' },
-  { emoji: '🏛️', label: "Hadrian's Gate", time: '7 min walk' },
-  { emoji: '🏘️', label: 'Kaleiçi Historic Streets', time: 'At doorstep' },
-  { emoji: '⚓', label: 'Antalya Old Harbor', time: '10 min walk' },
-  { emoji: '🛍️', label: 'Local Bazaars', time: '5 min walk' },
-  { emoji: '🌊', label: 'Mediterranean Sea', time: '8 min walk' },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Location() {
+  const { t } = useLanguage();
+  const lc = t.location;
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInView = useInView(mapRef, { once: true, margin: '-40px' });
+
+  const attractions = [
+    { emoji: '🏖️', label: lc.beach, time: lc.beachTime },
+    { emoji: '🏛️', label: lc.gate, time: lc.gateTime },
+    { emoji: '🏘️', label: lc.historicStreets, time: lc.historicTime },
+    { emoji: '⚓', label: lc.harbor, time: lc.harborTime },
+    { emoji: '🛍️', label: lc.bazaar, time: lc.bazaarTime },
+    { emoji: '🌊', label: lc.sea, time: lc.seaTime },
+  ];
 
   return (
     <section id="location" className="section-padding bg-white">
@@ -30,7 +34,7 @@ export default function Location() {
             transition={{ duration: 0.6 }}
             className="font-inter text-sm font-semibold text-primary-600 uppercase tracking-widest mb-3"
           >
-            Our Location
+            {lc.badge}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -38,8 +42,8 @@ export default function Location() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="heading-lg text-gray-900 mb-4"
           >
-            In the Heart of{' '}
-            <span className="gradient-text">Historic Kaleiçi</span>
+            {lc.title1}{' '}
+            <span className="gradient-text">{lc.title2}</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -47,13 +51,12 @@ export default function Location() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="font-inter text-base text-gray-500 leading-relaxed"
           >
-            Perfectly positioned within Antalya's ancient walled city, steps away
-            from the best beaches, historic sites, and vibrant markets.
+            {lc.subtitle}
           </motion.p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8 items-start">
-          {/* Map - 2/3 width */}
+          {/* Map — 2/3 width */}
           <motion.div
             ref={mapRef}
             initial={{ opacity: 0, x: -30 }}
@@ -71,12 +74,11 @@ export default function Location() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Kaleiçi Hotel Location"
-                className="w-full"
+                className="w-full block"
               />
             </div>
 
-            {/* Get Directions button */}
-            <div className="mt-4 flex gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
               <a
                 href="https://www.google.com/maps/dir/?api=1&destination=Kalei%C3%A7i+Hotel+Antalya"
                 target="_blank"
@@ -86,10 +88,10 @@ export default function Location() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                 </svg>
-                Get Directions
+                {lc.getDirections}
               </a>
               <a
-                href="https://maps.app.goo.gl/kaleicihotel"
+                href="https://www.google.com/maps/place/Kalei%C3%A7i+Hotel"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-stone-100 hover:bg-stone-200 text-gray-700 font-inter font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-300 border border-stone-200"
@@ -97,7 +99,7 @@ export default function Location() {
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
-                Open in Maps
+                {lc.openMaps}
               </a>
             </div>
           </motion.div>
@@ -118,7 +120,7 @@ export default function Location() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-inter font-semibold text-gray-800 text-sm mb-1">Address</p>
+                  <p className="font-inter font-semibold text-gray-800 text-sm mb-1">{lc.address}</p>
                   <p className="font-inter text-sm text-gray-600 leading-relaxed">
                     Kılınçarslan, Sakarya Sk. No:11,<br />
                     07100 Muratpaşa/<br />
@@ -134,7 +136,7 @@ export default function Location() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-inter font-semibold text-gray-800 text-sm mb-0.5">Phone</p>
+                  <p className="font-inter font-semibold text-gray-800 text-sm mb-0.5">{lc.phone}</p>
                   <a
                     href="tel:+905431480700"
                     className="font-inter text-sm text-primary-700 hover:text-primary-800 transition-colors"
@@ -148,21 +150,16 @@ export default function Location() {
             {/* Nearby attractions */}
             <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-soft">
               <p className="font-inter text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                Nearby Attractions
+                {lc.nearby}
               </p>
               <div className="space-y-3">
                 {attractions.map((attr) => (
-                  <div
-                    key={attr.label}
-                    className="flex items-center justify-between group"
-                  >
+                  <div key={attr.label} className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                       <span className="text-xl">{attr.emoji}</span>
-                      <span className="font-inter text-sm text-gray-700 font-medium">
-                        {attr.label}
-                      </span>
+                      <span className="font-inter text-sm text-gray-700 font-medium">{attr.label}</span>
                     </div>
-                    <span className="font-inter text-xs text-primary-600 font-semibold bg-primary-50 px-2 py-1 rounded-full">
+                    <span className="font-inter text-xs text-primary-600 font-semibold bg-primary-50 px-2 py-1 rounded-full whitespace-nowrap ml-2">
                       {attr.time}
                     </span>
                   </div>

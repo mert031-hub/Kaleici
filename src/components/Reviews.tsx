@@ -2,13 +2,14 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 
-const reviews = [
+const reviewData = [
   {
     name: 'Iliana',
     source: 'Google',
     rating: 5,
-    timeAgo: '6 months ago',
+    timeKey: 'time1' as const,
     text: 'Kaleiçi Hotel is a true gem. The owner is incredibly kind, welcoming, and always ready to help with anything you need. The service is top-notch — warm, personal, and attentive. The garden and pool area are beautiful. I felt completely at home.',
     avatar: 'IL',
     avatarColor: 'bg-secondary-500',
@@ -17,7 +18,7 @@ const reviews = [
     name: 'Savas Caliskan',
     source: 'Google',
     rating: 5,
-    timeAgo: '2 months ago',
+    timeKey: 'time2' as const,
     text: 'Ali kardeş çok ilgili akıllı bir işletmeci, otel çok güzel merkezi konumda, kahvaltı çok güzel, sigara böreği hayatımda yediğim en iyisi. Kesinlikle tavsiye ediyorum!',
     avatar: 'SC',
     avatarColor: 'bg-primary-600',
@@ -26,7 +27,7 @@ const reviews = [
     name: 'Binam288',
     source: 'Tripadvisor',
     rating: 3,
-    timeAgo: '7 months ago',
+    timeKey: 'time3' as const,
     text: 'The owner is very friendly and his family is very hard working. The breakfast was good. The location is excellent — right in the heart of Kaleiçi with everything within walking distance.',
     avatar: 'BI',
     avatarColor: 'bg-accent-500',
@@ -50,9 +51,11 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function ReviewCard({ review, delay }: { review: typeof reviews[0]; delay: number }) {
+function ReviewCard({ review, delay }: { review: typeof reviewData[0]; delay: number }) {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+
   return (
     <motion.div
       ref={ref}
@@ -61,7 +64,6 @@ function ReviewCard({ review, delay }: { review: typeof reviews[0]; delay: numbe
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       className="bg-white rounded-2xl p-7 shadow-soft border border-stone-200 card-hover flex flex-col"
     >
-      {/* Source badge */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
           <div className={`w-10 h-10 rounded-full ${review.avatarColor} flex items-center justify-center text-white font-inter font-semibold text-sm`}>
@@ -69,13 +71,11 @@ function ReviewCard({ review, delay }: { review: typeof reviews[0]; delay: numbe
           </div>
           <div>
             <p className="font-inter font-semibold text-gray-900 text-sm">{review.name}</p>
-            <p className="font-inter text-xs text-gray-400">{review.timeAgo}</p>
+            <p className="font-inter text-xs text-gray-400">{t.reviews[review.timeKey]}</p>
           </div>
         </div>
         <div className={`text-xs font-inter font-semibold px-3 py-1.5 rounded-full ${
-          review.source === 'Google'
-            ? 'bg-blue-50 text-blue-600'
-            : 'bg-green-50 text-green-600'
+          review.source === 'Google' ? 'bg-blue-50 text-blue-600' : 'bg-green-50 text-green-600'
         }`}>
           {review.source}
         </div>
@@ -91,6 +91,9 @@ function ReviewCard({ review, delay }: { review: typeof reviews[0]; delay: numbe
 }
 
 export default function Reviews() {
+  const { t } = useLanguage();
+  const rv = t.reviews;
+
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true });
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -99,7 +102,6 @@ export default function Reviews() {
   return (
     <section id="reviews" className="section-padding bg-stone-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <motion.div
           ref={headerRef}
           initial={{ opacity: 0, y: 30 }}
@@ -108,14 +110,13 @@ export default function Reviews() {
           className="text-center mb-14"
         >
           <p className="font-inter text-sm font-semibold text-primary-600 uppercase tracking-widest mb-3">
-            Guest Reviews
+            {rv.badge}
           </p>
           <h2 className="heading-lg text-gray-900 mb-5">
-            What Our Guests{' '}
-            <span className="gradient-text">Say</span>
+            {rv.title1}{' '}
+            <span className="gradient-text">{rv.title2}</span>
           </h2>
 
-          {/* Big rating badge */}
           <motion.div
             ref={badgeRef}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -131,24 +132,22 @@ export default function Reviews() {
             </div>
             <div className="w-px h-14 bg-stone-200" />
             <div className="text-left">
-              <p className="font-inter text-sm font-semibold text-gray-900">875+ Reviews</p>
-              <p className="font-inter text-xs text-gray-500 mt-0.5">on Google Maps</p>
+              <p className="font-inter text-sm font-semibold text-gray-900">{rv.count}</p>
+              <p className="font-inter text-xs text-gray-500 mt-0.5">{rv.on}</p>
               <div className="flex items-center gap-1.5 mt-2">
                 <div className="w-2 h-2 rounded-full bg-primary-500" />
-                <p className="font-inter text-xs text-gray-600">Verified guest reviews</p>
+                <p className="font-inter text-xs text-gray-600">{rv.verified}</p>
               </div>
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Review cards */}
         <div className="grid md:grid-cols-3 gap-6">
-          {reviews.map((review, i) => (
+          {reviewData.map((review, i) => (
             <ReviewCard key={review.name} review={review} delay={i * 0.1} />
           ))}
         </div>
 
-        {/* CTA to see all reviews */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -162,7 +161,7 @@ export default function Reviews() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-inter text-sm font-semibold text-primary-700 hover:text-primary-900 transition-colors duration-200 border-b-2 border-primary-300 hover:border-primary-600 pb-0.5"
           >
-            See all 875 reviews on Google
+            {rv.seeAll}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
