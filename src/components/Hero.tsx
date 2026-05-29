@@ -106,7 +106,7 @@ export default function Hero() {
           loop
           playsInline
           preload="auto"
-          onCanPlay={() => setVideoReady(true)}
+          onLoadedMetadata={() => setVideoReady(true)}
           onLoadedData={() => setVideoReady(true)}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
             videoReady ? "opacity-100" : "opacity-0"
