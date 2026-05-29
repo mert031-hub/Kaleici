@@ -4,6 +4,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
+const MIN_SPLASH_MS = 600;
+const MAX_SPLASH_MS = 1400;
+
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -17,19 +20,32 @@ export default function Hero() {
   const { t, whatsappUrl } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [minSplashDone, setMinSplashDone] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const timer = setTimeout(() => setShowSplash(false), 600);
-    return () => clearTimeout(timer);
+    // Min: guarantee at least 600ms of branding
+    const minTimer = setTimeout(() => setMinSplashDone(true), MIN_SPLASH_MS);
+    // Max: force-close splash after 1400ms even if video not ready
+    const maxTimer = setTimeout(() => setShowSplash(false), MAX_SPLASH_MS);
+    return () => {
+      clearTimeout(minTimer);
+      clearTimeout(maxTimer);
+    };
   }, []);
+
+  // Close splash as soon as BOTH minimum time passed AND video is ready
+  useEffect(() => {
+    if (minSplashDone && videoReady) {
+      setShowSplash(false);
+    }
+  }, [minSplashDone, videoReady]);
 
   const h = t.hero;
 
   return (
     <>
-      {/* Loading screen — fixed 600ms, independent of video readiness */}
       <AnimatePresence>
         {showSplash && (
           <motion.div
@@ -79,12 +95,11 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      {/* bg-[#1a4731] is the safety color if video ever fails */}
+      {/* bg-[#1a4731] is the safety color if video fails */}
       <section
         id="hero"
         className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden bg-[#1a4731]"
       >
-        {/* Primary background — only heroorj.mp4, fades in when ready */}
         <video
           autoPlay
           muted
@@ -92,6 +107,7 @@ export default function Hero() {
           playsInline
           preload="auto"
           onCanPlay={() => setVideoReady(true)}
+          onLoadedData={() => setVideoReady(true)}
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
             videoReady ? "opacity-100" : "opacity-0"
           }`}
@@ -172,4 +188,5 @@ export default function Hero() {
     </>
   );
 }
+
 
