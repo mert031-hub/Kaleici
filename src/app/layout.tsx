@@ -59,6 +59,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr" className="scroll-smooth">
+      <head>
+        {/* Start fetching hero video as early as possible — before React hydrates */}
+        <link
+          rel="preload"
+          href="/videos/heroorj.mp4"
+          as="video"
+          type="video/mp4"
+        />
+        {/* Preload hero fallback image so it appears instantly after splash */}
+        <link
+          rel="preload"
+          href="/images/bahce1.webp"
+          as="image"
+        />
+      </head>
       <body className="font-inter bg-stone-50 text-gray-900 overflow-x-hidden">
         <ClientProviders>{children}</ClientProviders>
       </body>
